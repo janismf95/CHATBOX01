@@ -21,7 +21,6 @@
             background: #ffffff; 
             display: flex; 
             flex-direction: column; 
-            /* Spazio necessario per non coprire gli ultimi messaggi con la barra input */
             padding-bottom: 70px; 
         }
         
@@ -71,6 +70,8 @@
             cursor: pointer; 
             font-weight: bold;
         }
+        
+        button:hover { background: #0056b3; }
     </style>
 </head>
 <body>
@@ -114,7 +115,21 @@
         onChildAdded(chatRef, (data) => {
             const m = data.val();
             const div = document.getElementById('chat');
-            div.innerHTML += `<div class="msg-bubble"><b>${m.user}</b> ${m.text}</div>`;
+            
+            // Creazione elementi in modo sicuro per gestire il testo
+            const container = document.createElement('div');
+            container.className = "msg-bubble";
+            
+            const userBold = document.createElement('b');
+            userBold.textContent = m.user;
+            
+            const textSpan = document.createElement('span');
+            textSpan.textContent = " " + m.text;
+            
+            container.appendChild(userBold);
+            container.appendChild(textSpan);
+            
+            div.appendChild(container);
             div.scrollTop = div.scrollHeight;
         });
     </script>
