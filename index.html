@@ -5,18 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Box Firebase</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
-        .chat-container { width: 100%; max-width: 500px; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        /* Reset base e layout */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        #chat { height: 400px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fff; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background-color: #e5ddd5; /* Colore tipico chat */
+            height: 100vh; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+        }
+
+        .chat-container { 
+            width: 100%; 
+            max-width: 500px; 
+            height: 100vh; /* Occupa tutto lo schermo su mobile */
+            background: #ffffff; 
+            display: flex; 
+            flex-direction: column; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
         
-        .msg-bubble { padding: 10px 15px; border-radius: 18px; background: #e9ecef; max-width: 80%; align-self: flex-start; }
-        .msg-bubble b { display: block; font-size: 0.8em; color: #007bff; }
+        #chat { 
+            flex: 1; /* Occupa tutto lo spazio disponibile tra header e footer */
+            padding: 20px; 
+            overflow-y: auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
         
-        .input-area { padding: 15px; background: #fff; border-top: 1px solid #ddd; display: flex; gap: 10px; }
-        input { padding: 10px; border: 1px solid #ccc; border-radius: 8px; flex: 1; }
-        #user { max-width: 80px; }
-        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        .msg-bubble { 
+            padding: 10px 15px; 
+            border-radius: 12px; 
+            background: #f1f0f0; 
+            max-width: 85%; 
+            align-self: flex-start;
+            word-wrap: break-word;
+        }
+        
+        .msg-bubble b { display: block; font-size: 0.75em; color: #007bff; margin-bottom: 4px; }
+        
+        .input-area { 
+            padding: 15px; 
+            background: #f0f0f0; 
+            border-top: 1px solid #ddd; 
+            display: flex; 
+            gap: 8px; 
+        }
+        
+        input { padding: 12px; border: 1px solid #ccc; border-radius: 20px; outline: none; }
+        #user { width: 80px; }
+        #msg { flex: 1; }
+        
+        button { 
+            padding: 10px 20px; 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-weight: bold;
+        }
+        
         button:hover { background: #0056b3; }
     </style>
 </head>
