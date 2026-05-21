@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Box Firebase</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px; }
+        .chat-container { width: 100%; max-width: 500px; background: white; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); overflow: hidden; }
+        
+        #chat { height: 400px; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; background: #fff; }
+        
+        .msg-bubble { padding: 10px 15px; border-radius: 18px; background: #e9ecef; max-width: 80%; align-self: flex-start; }
+        .msg-bubble b { display: block; font-size: 0.8em; color: #007bff; }
+        
+        .input-area { padding: 15px; background: #fff; border-top: 1px solid #ddd; display: flex; gap: 10px; }
+        input { padding: 10px; border: 1px solid #ccc; border-radius: 8px; flex: 1; }
+        #user { max-width: 80px; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 8px; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <div class="chat-container">
+        <div id="chat"></div>
+        <div class="input-area">
+            <input type="text" id="user" placeholder="Nome">
+            <input type="text" id="msg" placeholder="Scrivi un messaggio...">
+            <button onclick="inviaMessaggio()">Invia</button>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyC6mN6izXzecZfiLhAPP72GLp9i9oLKDRE",
+            authDomain: "chatbox01-c525b.firebaseapp.com",
+            databaseURL: "https://chatbox01-c525b-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "chatbox01-c525b",
+            storageBucket: "chatbox01-c525b.firebasestorage.app",
+            messagingSenderId: "473333196171",
+            appId: "1:473333196171:web:b6651ac1967ed77978bb8e",
+            measurementId: "G-C3R5SH3LXJ"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const chatRef = ref(db, 'messaggi');
+
+        window.inviaMessaggio = () => {
+            const user = document.getElementById('user').value || "Anonimo";
+            const msg = document.getElementById('msg').value;
+            if(msg.trim() === "") return;
+            push(chatRef, { user: user, text: msg });
+            document.getElementById('msg').value = '';
+        };
+
+        onChildAdded(chatRef, (data) => {
+            const m = data.val();
+            const div = document.getElementById('chat');
+            div.innerHTML += `<div class="msg-bubble"><b>${m.user}</b> ${m.text}</div>`;
+            div.scrollTop = div.scrollHeight;
+        });
+    </script>
+</body>
+</html>
